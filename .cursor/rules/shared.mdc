@@ -1,5 +1,77 @@
 ---
-description:
-globs:
-alwaysApply: false
+description: 
+globs: 
+alwaysApply: true
 ---
+# AI Rules for word-habit
+
+Word Habit is a responsive, mobile-first web app designed to support mobile app development from a single codebase. It helps users systematically learn English and Polish vocabulary by introducing one new word per day, following the "atomic habits" philosophy to build lasting knowledge.
+
+Key features include creating a personal dictionary by manually adding words or using AI-generated translations, browsing and deleting entries, and receiving customizable daily notifications. The MVP is completely free and intended for users of all ages and language proficiency levels.
+
+## Tech Stack
+
+- Next.js 15
+- TypeScript 5
+- React 19
+- Tailwind 4
+- Shadcn/ui
+
+## Project Structure
+
+When introducing changes to the project, always follow the directory structure below:
+
+- `src/app/`  
+  - Root of the App Router-based routing system.  
+  - Contains route segments with files like `page.tsx`, `layout.tsx`, `loading.tsx`, `error.tsx`.  
+  - Example: `src/app/dashboard/page.tsx`, `src/app/blog/[slug]/page.tsx`.
+
+- `src/components/`  
+  - Reusable UI components.  
+  - Grouped by domain or type, e.g., `ui/`, `forms/`.  
+  - Example files: `Button.tsx`, `Navbar.tsx`.
+
+- `src/lib/`  
+  - Utility functions and shared logic.  
+  - Includes server actions, API clients, and library wrappers.  
+  - Example: `auth.ts`, `prisma.ts`, `fetcher.ts`.
+
+- `src/styles/`  
+  - Global CSS, Tailwind config, or CSS modules.  
+  - Example files: `globals.css`, `theme.css`.
+
+- `src/hooks/`  
+  - Custom React hooks.  
+  - Example: `useUser.ts`, `useOnClickOutside.ts`.
+
+- `src/types/`  
+  - TypeScript type definitions and interfaces.  
+  - Example: `user.ts`, `api.ts`.
+
+- `src/constants/`  
+  - App-wide constants, enums, or static config values.  
+  - Example: `routes.ts`, `roles.ts`.
+
+- `src/middleware.ts`  
+  - Optional middleware for advanced routing or authentication logic.  
+  - Placed at the root of `src/`.
+
+- `public/`  
+  - Static assets like images, fonts, and icons.  
+  - Accessible directly via `/image.png`.
+
+When modifying the directory structure, always update this section.
+
+## Coding practices
+
+### Guidelines for clean code
+
+- Use feedback from linters to improve the code when making changes.
+- Prioritize error handling and edge cases.
+- Handle errors and edge cases at the beginning of functions.
+- Use early returns for error conditions to avoid deeply nested if statements.
+- Place the happy path last in the function for improved readability.
+- Avoid unnecessary else statements; use if-return pattern instead.
+- Use guard clauses to handle preconditions and invalid states early.
+- Implement proper error logging and user-friendly error messages.
+- Consider using custom error types or error factories for consistent error handling.
