@@ -43,7 +43,7 @@ Uczenie się nowych słów, ich tłumaczeń i kontekstów użycia w języku obcy
 - Generowanie tłumaczeń z pomocą AI.
 - Przeglądanie i usuwanie słów.
 - Konfigurowalny system codziennych powiadomień.
-- Brak możliwości edycji zapisanych słów.
+- Możliwość edycji zapisanych słów.
 
 ### 4.2. Funkcjonalności wykluczone z MVP
 - Import słów z plików zewnętrznych (np. PDF, DOCX).
@@ -90,6 +90,7 @@ Uczenie się nowych słów, ich tłumaczeń i kontekstów użycia w języku obcy
     1.  Gdy wpisuję słowo w pole "Słowo" i klikam przycisk "Tłumacz", cały ekran zostaje zablokowany, a na środku pojawia się animacja ładowania.
     2.  W ciągu 10 sekund pola formularza (Tłumaczenie, Synonimy, etc.) zostają wypełnione danymi od AI, a blokada ekranu znika.
     3.  Gdy dane zostaną wygenerowane, mogę je zaakceptować klikając "Zapisz", co dodaje słowo do mojego słownika.
+    4. Użytkownik może również edytować tłumaczenie wygenerowane przez AI. Pola są dostępne do edycji. Po wyedytowaniu użytkownik klika przycisk "Zapisz", co dodaje słowo do mojego słownika.
 
 *   ID: US-005
 *   Tytuł: Obsługa błędu generowania przez AI
@@ -122,9 +123,17 @@ Uczenie się nowych słów, ich tłumaczeń i kontekstów użycia w języku obcy
     2.  Gdy potwierdzam usunięcie, słowo jest trwale usuwane z mojego słownika, a ja jestem przenoszony z powrotem do widoku listy.
     3.  Gdy anuluję operację, modal znika, a ja pozostaję w widoku szczegółów słowa.
 
+*   ID: US-009
+*   Tytuł: Edytowanie tłumaczenia w słowniku
+*   Opis: Jako użytkownik, chcę mieć możliwość wyedytowania tłumaczenia, którego znajduje się w moim słowniku.
+*   Kryteria akceptacji:
+    1.  Gdy w widoku szczegółów słowa klikam przycisk "Edytuj", pojawia się ekran umożliwiający edycję wszystkich pól, oprócz oryginalnego słowa.
+    2.  Użytkownik może wyedytować wszystkie pola, oprócz oryginalnego słowa.
+    3.  Po zakończonej edycji użytkownik klika przycisk "Zapisz", który zapisuje wyedytowane tłumaczenie. Użytkownik może również zrezygnować z edycji poprzez naciśniecie przycisku "Anuluj", wówczas wyedytowane dane nie są zapisywane.
+
 ### 5.3. Nauka i Powiadomienia
 
-*   ID: US-009
+*   ID: US-010
 *   Tytuł: Konfiguracja powiadomień
 *   Opis: Jako użytkownik, chcę móc ustawić preferowaną godzinę codziennych powiadomień oraz wybrać dni tygodnia, w które chcę je otrzymywać, aby dopasować naukę do mojego harmonogramu.
 *   Kryteria akceptacji:
@@ -133,7 +142,7 @@ Uczenie się nowych słów, ich tłumaczeń i kontekstów użycia w języku obcy
     3.  Mogę zaznaczyć lub odznaczyć poszczególne dni tygodnia (poniedziałek-niedziela), aby włączyć lub wyłączyć powiadomienia w te dni.
     4.  Zmiany zapisują się automatycznie po ich dokonaniu.
 
-*   ID: US-010
+*   ID: US-011
 *   Tytuł: Otrzymywanie codziennego powiadomienia
 *   Opis: Jako użytkownik, chcę codziennie o ustalonej porze otrzymywać powiadomienie z jednym słowem z mojego słownika, aby systematycznie budować nawyk nauki.
 *   Kryteria akceptacji:
@@ -142,7 +151,7 @@ Uczenie się nowych słów, ich tłumaczeń i kontekstów użycia w języku obcy
     3.  Kliknięcie w powiadomienie otwiera aplikację i przenosi bezpośrednio do ekranu szczegółów danego słowa.
     4.  Powiadomienie nie jest wysyłane, jeśli na dany dzień tygodnia powiadomienia są wyłączone.
 
-*   ID: US-011
+*   ID: US-012
 *   Tytuł: Oznaczanie słowa jako "znane"
 *   Opis: Jako użytkownik, chcę mieć możliwość oznaczenia słowa jako "znane", aby aplikacja przestała mi je przypominać i skupiła się na słowach, których jeszcze nie umiem.
 *   Kryteria akceptacji:
