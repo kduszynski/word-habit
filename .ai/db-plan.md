@@ -6,6 +6,9 @@
 
 ## 1. Tabele
 
+### users
+Tabela `users` jest zarządzana przez Supabase Auth.
+
 ### translations
 - **id**: UUID PK DEFAULT `gen_random_uuid()`
 - **user_id**: UUID FK → `auth.users(id)` ON DELETE CASCADE NOT NULL
