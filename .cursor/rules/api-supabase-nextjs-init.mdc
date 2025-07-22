@@ -1,0 +1,117 @@
+---
+description: Supabase integration guide for Next.js 15 with App Router, TypeScript 5, React 19, and Tailwind 4
+globs:
+alwaysApply: false
+------------------
+
+# Supabase Next.js 15 Initialization
+
+This document provides a reproducible guide to create the necessary file structure for integrating Supabase with your Next.js 15 project using the App Router.
+
+## Prerequisites
+
+* Your project is running Next.js 15, TypeScript 5, React 19, and Tailwind 4.
+* You have installed the `@supabase/supabase-js` package:
+
+  ```bash
+  npm install @supabase/supabase-js
+  ```
+* A Supabase config file exists at `/supabase/config.toml`.
+* A database types file exists at `/src/db/database.types.ts`, exporting a `Database` interface matching your schema.
+
+> **IMPORTANT**: Verify these before proceeding. If any are missing, please add or correct them and then continue.
+
+## File Structure and Setup
+
+### 1. Supabase Client Initialization (Client-side)
+
+Create a client instance for browser-side operations.
+**File:** `/src/lib/supabase/client.ts`
+
+```ts
+'use client';
+import { createClient } from '@supabase/supabase-js';
+import type { Database } from '../db/database.types';
+
+const supabaseUrl    = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_KEY!;
+
+export const supabaseClient = createClient<Database>(
+  supabaseUrl,
+  supabaseAnonKey
+);
+```
+
+* Uses `NEXT_PUBLIC_`-prefixed env vars so they’re exposed to the browser.
+* Marked `'use client'` so you can import it in client components.
+
+### 2. Supabase Admin Client (Server-side)
+
+For server-only operations (e.g. webhooks, migrations), create a service-role client.
+**File:** `/src/lib/supabase/server.ts`
+
+```ts
+import { createClient } from '@supabase/supabase-js';
+import type { Database } from '../db/database.types';
+
+const supabaseUrl            = process.env.SUPABASE_URL!;
+const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+
+export const supabaseAdmin = createClient<Database>(
+  supabaseUrl,
+  supabaseServiceRoleKey
+);
+```
+
+* Uses non-public env vars for elevated privileges.
+* Import in API routes or server components only.
+
+### 3. Next.js Middleware Setup
+
+If you need to run edge logic on every request (e.g. auth checks), set up a middleware.
+**File:** `/middleware.ts`
+
+```ts
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+import { supabaseClient } from './src/lib/supabase/client';
+
+export function middleware(request: NextRequest) {
+  // Example: attach supabase instance via a header or use for logging
+  const response = NextResponse.next();
+  // e.g., response.headers.set('x-sb-session', JSON.stringify(...))
+  return response;
+}
+
+export const config = {
+  matcher: '/((?!_next/static|_next/image|favicon.ico).*)',
+};
+```
+
+> **Note**: Next.js middleware can’t mutate a shared “locals” object like Astro. Instead, import your client directly where needed, or pass data via headers/cookies.
+
+### 4. TypeScript Environment Definitions
+
+Augment `process.env` types so you get proper typing for your Supabase vars.
+**File:** `src/env.d.ts` (or `global.d.ts`)
+
+```ts
+/// <reference types="next" />
+
+declare namespace NodeJS {
+  interface ProcessEnv {
+    // Client-side
+    readonly NEXT_PUBLIC_SUPABASE_URL: string;
+    readonly NEXT_PUBLIC_SUPABASE_KEY: string;
+    // Server-side
+    readonly SUPABASE_URL: string;
+    readonly SUPABASE_SERVICE_ROLE_KEY: string;
+  }
+}
+```
+
+* Ensures that any `process.env.SUPABASE_*` access is strongly typed.
+
+---
+
+With these files in place, you can import `supabaseClient` into your React components and `supabaseAdmin` into your server functions or API routes, all with full TypeScript safety.
