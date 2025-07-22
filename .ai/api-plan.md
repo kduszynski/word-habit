@@ -184,11 +184,79 @@
 - **Success**: 200 or 204 No Content (if none)
 - **Errors**: 401 Unauthorized
 
+### 2.5 Admin Logs
+
+#### List AI Generation Logs
+- **Method**: GET
+- **URL**: /admin/translation-generation-logs
+- **Description**: Retrieve paginated list of AI generation logs; admin only.
+- **Query Params**:
+  - `user_id` (UUID, optional): filter by user.
+  - `model_name` (string, optional): filter by AI model.
+  - `sort_by` (string, optional, default: `request_timestamp`): field to sort.
+  - `sort_order` (string, optional, default: `desc`): `asc` or `desc`.
+  - `page` (integer, default=1)
+  - `limit` (integer, default=20)
+- **Response**:
+  ```json
+  {
+    "data": [
+      {
+        "id": "...",
+        "user_id": "...",
+        "model_name": "...",
+        "input_payload": {...},
+        "response_payload": {...},
+        "request_timestamp": "...",
+        "duration_ms": 123,
+        "created_at": "...",
+        "updated_at": "..."
+      }
+    ],
+    "meta": { "page": 1, "limit": 20, "total": 100 }
+  }
+  ```
+- **Success**: 200 OK
+- **Errors**: 401 Unauthorized, 403 Forbidden
+
+#### List AI Error Logs
+- **Method**: GET
+- **URL**: /admin/translation-generation-error-logs
+- **Description**: Retrieve paginated list of AI translation error logs; admin only.
+- **Query Params**:
+  - `user_id` (UUID, optional): filter by user.
+  - `sort_by` (string, optional, default: `error_timestamp`): field to sort.
+  - `sort_order` (string, optional, default: `desc`): `asc` or `desc`.
+  - `page` (integer, default=1)
+  - `limit` (integer, default=20)
+- **Response**:
+  ```json
+  {
+    "data": [
+      {
+        "id": "...",
+        "user_id": "...",
+        "error_code": "...",
+        "error_message": "...",
+        "request_payload": {...},
+        "response_payload": {...},
+        "error_timestamp": "...",
+        "created_at": "...",
+        "updated_at": "..."
+      }
+    ],
+    "meta": { "page": 1, "limit": 20, "total": 50 }
+  }
+  ```
+- **Success**: 200 OK
+- **Errors**: 401 Unauthorized, 403 Forbidden
+
 ## 3. Authentication and Authorization
 
 - **Mechanism**: Supabase Auth (JWT or session cookies) integrated via the Supabase Next.js SDK.
 - **Enforcement**: Every endpoint checks valid auth token; RLS policies (`auth.uid() = user_id`) in PostgreSQL ensure per-user data isolation.
 - **Rate Limiting**: Apply per-IP throttling on /auth/login to block after 5 failed attempts for 15 minutes (per PRD).
+- **Admin Role**: Endpoints under `/admin/` require JWT with `role: "admin"` claim; return 403 Forbidden if unauthorized.
 
 ## 4. Validation and Business Logic
 
